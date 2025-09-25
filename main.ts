@@ -8,7 +8,6 @@ control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_B, EventBusValue.MICROBIT_BUTT
 control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_A, EventBusValue.MICROBIT_BUTTON_EVT_CLICK, function () {
     A = !(A)
 })
-let temperatura = 0
 let time = 0
 let light2 = 0
 let B = false
@@ -33,11 +32,6 @@ loops.everyInterval(60000, function () {
     Ttime = true
 })
 basic.forever(function () {
-    temperatura = dstemp.celsius(DigitalPin.P2)
-    if (temperatura > 0 && Ttime) {
-        serial.writeLine("" + control.millis() + ";" + light2 + ";" + Math.round(temperatura * 10) / 10)
-        Ttime = false
-    }
     if (!(A) && !(B)) {
         pins.digitalWritePin(DigitalPin.P0, 1)
         pins.digitalWritePin(DigitalPin.P1, 1)
@@ -47,13 +41,13 @@ basic.forever(function () {
     } else if (!(A) && B) {
         pins.digitalWritePin(DigitalPin.P0, 1)
         pins.digitalWritePin(DigitalPin.P1, 0)
-    } else if (light2 > 232) {
+    } else if (light2 > 255) {
         pins.digitalWritePin(DigitalPin.P0, 1)
         pins.digitalWritePin(DigitalPin.P1, 1)
-    } else if (light2 > 224) {
+    } else if (light2 > 255) {
         pins.digitalWritePin(DigitalPin.P0, 0)
         pins.digitalWritePin(DigitalPin.P1, 1)
-    } else if (light2 > 200) {
+    } else if (light2 > 130) {
         pins.digitalWritePin(DigitalPin.P0, 1)
         pins.digitalWritePin(DigitalPin.P1, 0)
     } else {
@@ -66,5 +60,4 @@ basic.forever(function () {
 })
 basic.forever(function () {
     basic.showString("" + (light2))
-    basic.showString("" + (temperatura))
 })
